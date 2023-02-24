@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
 	arr := []int32{1, 2, 3, 4, 5}
@@ -19,12 +22,12 @@ func main() {
 	fmt.Println("dynamicArray", result)
 
 	maxSum := hourglassSum([][]int32{
-		{1, 1, 1, 0, 0, 0},
-		{0, 1, 0, 0, 0, 0},
-		{1, 1, 1, 0, 0, 0},
-		{0, 0, 2, 4, 4, 0},
-		{0, 0, 0, 2, 0, 0},
-		{0, 0, 1, 2, 4, 0},
+		{0, -4, -6, 0, -7, -6},
+		{-1, -2, -6, -8, -3, -1},
+		{-8, -4, -2, -8, -8, -6},
+		{-3, -1, -2, -5, -7, -4},
+		{-3, -5, -3, -6, -6, -6},
+		{-3, -6, 0, -8, -6, -7},
 	})
 	fmt.Println("hourglassSum", maxSum)
 }
@@ -62,14 +65,14 @@ func dynamicArray(n int32, queries [][]int32) []int32 {
 }
 
 func hourglassSum(arr [][]int32) int32 {
-	maxSum := int32(0)
+	maxSum := int32(math.MinInt32)
 
 	for i := 0; i <= len(arr)-3; i++ {
 		for j := 0; j <= len(arr[0])-3; j++ {
 			sum := arr[i][j] + arr[i][j+1] + arr[i][j+2] +
 				arr[i+1][j+1] +
 				arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2]
-			fmt.Println(i, j, arr[i+1][j+1], sum)
+
 			if sum > maxSum {
 				maxSum = sum
 			}
