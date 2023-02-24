@@ -30,6 +30,14 @@ func main() {
 		{-3, -6, 0, -8, -6, -7},
 	})
 	fmt.Println("hourglassSum", maxSum)
+
+	result64 := arrayManipulation(int32(5),
+		[][]int32{
+			{1, 2, 100},
+			{2, 5, 100},
+			{3, 4, 100},
+		})
+	fmt.Println("arrayManipulation", result64)
 }
 
 func reverseArray(a []int32) []int32 {
@@ -80,4 +88,26 @@ func hourglassSum(arr [][]int32) int32 {
 	}
 
 	return maxSum
+}
+
+func arrayManipulation(n int32, queries [][]int32) int64 {
+	arr := make([]int64, n+1)
+	for _, q := range queries {
+		a := q[0]
+		b := q[1]
+		k := q[2]
+		arr[a-1] += int64(k)
+		arr[b] -= int64(k)
+		fmt.Println("arr", arr, i, j, k)
+	}
+
+	var max int64 = 0
+	var sum int64 = 0
+	for _, val := range arr {
+		sum += val
+		if sum > max {
+			max = sum
+		}
+	}
+	return max
 }
