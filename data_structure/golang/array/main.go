@@ -15,9 +15,18 @@ func main() {
 		{2, 1, 1},
 	}
 	n := int32(2)
-
 	result := dynamicArray(n, queries)
-	fmt.Println("dynamicArray", result) // [7 3]
+	fmt.Println("dynamicArray", result)
+
+	maxSum := hourglassSum([][]int32{
+		{1, 1, 1, 0, 0, 0},
+		{0, 1, 0, 0, 0, 0},
+		{1, 1, 1, 0, 0, 0},
+		{0, 0, 2, 4, 4, 0},
+		{0, 0, 0, 2, 0, 0},
+		{0, 0, 1, 2, 4, 0},
+	})
+	fmt.Println("hourglassSum", maxSum)
 }
 
 func reverseArray(a []int32) []int32 {
@@ -50,4 +59,22 @@ func dynamicArray(n int32, queries [][]int32) []int32 {
 	}
 
 	return results
+}
+
+func hourglassSum(arr [][]int32) int32 {
+	maxSum := int32(0)
+
+	for i := 0; i <= len(arr)-3; i++ {
+		for j := 0; j <= len(arr[0])-3; j++ {
+			sum := arr[i][j] + arr[i][j+1] + arr[i][j+2] +
+				arr[i+1][j+1] +
+				arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2]
+			fmt.Println(i, j, arr[i+1][j+1], sum)
+			if sum > maxSum {
+				maxSum = sum
+			}
+		}
+	}
+
+	return maxSum
 }
