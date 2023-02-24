@@ -98,7 +98,6 @@ func arrayManipulation(n int32, queries [][]int32) int64 {
 		k := q[2]
 		arr[a-1] += int64(k)
 		arr[b] -= int64(k)
-		fmt.Println("arr", arr, i, j, k)
 	}
 
 	var max int64 = 0
