@@ -38,6 +38,9 @@ func main() {
 			{3, 4, 100},
 		})
 	fmt.Println("arrayManipulation", result64)
+
+	result32 := rotateLeft(4, []int32{1, 2, 3, 4, 5})
+	fmt.Println("rotateLeft", result32)
 }
 
 func reverseArray(a []int32) []int32 {
@@ -109,4 +112,8 @@ func arrayManipulation(n int32, queries [][]int32) int64 {
 		}
 	}
 	return max
+}
+
+func rotateLeft(d int32, arr []int32) []int32 {
+	return append(arr[d:], arr[:d]...)
 }
