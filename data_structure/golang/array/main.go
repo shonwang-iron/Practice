@@ -41,6 +41,21 @@ func main() {
 
 	result32 := rotateLeft(4, []int32{1, 2, 3, 4, 5})
 	fmt.Println("rotateLeft", result32)
+
+	result32 = matchingStrings(
+		[]string{
+			"aba",
+			"baba",
+			"aba",
+			"xzxb",
+		},
+		[]string{
+			"aba",
+			"xzxb",
+			"ab",
+		},
+	)
+	fmt.Println("matchingStrings", result32)
 }
 
 func reverseArray(a []int32) []int32 {
@@ -116,4 +131,18 @@ func arrayManipulation(n int32, queries [][]int32) int64 {
 
 func rotateLeft(d int32, arr []int32) []int32 {
 	return append(arr[d:], arr[:d]...)
+}
+
+func matchingStrings(stringList []string, queries []string) []int32 {
+	freqMap := make(map[string]int32)
+	for _, s := range stringList {
+		freqMap[s]++
+	}
+
+	res := make([]int32, len(queries))
+	for i, q := range queries {
+		res[i] = freqMap[q]
+	}
+
+	return res
 }
