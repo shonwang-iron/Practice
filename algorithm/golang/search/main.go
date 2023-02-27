@@ -7,9 +7,18 @@ func main() {
 	target := 8
 	index := linearSearch(arr, target)
 	if index != -1 {
-		fmt.Printf("Target %d found at index %d\n", target, index)
+		fmt.Printf("Linear search: Target %d found at index %d\n", target, index)
 	} else {
-		fmt.Printf("Target %d not found\n", target)
+		fmt.Printf("Linear search: Target %d not found\n", target)
+	}
+
+	arr = []int{1, 2, 4, 5, 7, 8}
+	target = 7
+	index = binarySearch(arr, target)
+	if index != -1 {
+		fmt.Printf("Binary search: Target %d found at index %d\n", target, index)
+	} else {
+		fmt.Printf("Binary search: Target %d not found\n", target)
 	}
 }
 
@@ -19,5 +28,23 @@ func linearSearch(arr []int, target int) int {
 			return i
 		}
 	}
+	return -1
+}
+
+func binarySearch(arr []int, target int) int {
+	low, high := 0, len(arr)-1
+
+	for low <= high {
+		mid := (low + high) / 2
+
+		if arr[mid] == target {
+			return mid
+		} else if arr[mid] < target {
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+	}
+
 	return -1
 }
