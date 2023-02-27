@@ -17,6 +17,11 @@ func main() {
 	fmt.Println("Before merge sorting:", arr)
 	arr = mergeSort(arr)
 	fmt.Println("After merge sorting:", arr)
+
+	arr = []int{5, 2, 4, 6, 1, 3}
+	fmt.Println("Before quick sorting:", arr)
+	quickSort(arr, 0, len(arr)-1)
+	fmt.Println("After sorting:", arr)
 }
 
 func insertionSort(arr []int) {
@@ -116,4 +121,39 @@ func merge(left, right []int) []int {
 	}
 
 	return result
+}
+
+func quickSort(arr []int, low, high int) {
+	if low < high {
+		// 將陣列分區並取得分割點
+		p := partition(arr, low, high)
+
+		// 遞歸排序左子陣列
+		quickSort(arr, low, p-1)
+
+		// 遞歸排序右子陣列
+		quickSort(arr, p+1, high)
+	}
+}
+
+func partition(arr []int, low, high int) int {
+	// 選擇最後一個元素作為基準值
+	pivot := arr[high]
+
+	// i 為小於基準值的元素的最右邊索引
+	i := low - 1
+
+	// 將小於基準值的元素移到陣列左邊
+	for j := low; j <= high-1; j++ {
+		if arr[j] < pivot {
+			i++
+			arr[i], arr[j] = arr[j], arr[i]
+		}
+	}
+
+	// 將基準值移到中間
+	arr[i+1], arr[high] = arr[high], arr[i+1]
+
+	// 返回基準值的索引
+	return i + 1
 }
