@@ -19,6 +19,12 @@ func main() {
 	str3 := "hello"
 	str4 := "world"
 	fmt.Printf("%s and %s is anagrams: %t\n", str3, str4, isAnagram(str3, str4))
+
+	str := []byte("Mr John Smith    ")
+	trueLength := 13 // The actual length is 13, not including the extra space at the end
+	fmt.Printf("Original string: %s\n", string(str))
+	URLify(str, trueLength)
+	fmt.Printf("Replaced string: %s\n", string(str))
 }
 
 // Non-repeating: Implement an algorithm to
@@ -64,4 +70,33 @@ func isAnagram(str1, str2 string) bool {
 
 	// Compare sorted strings for equality
 	return sortedStr1 == sortedStr2
+}
+
+// URLify: Write a method that replaces all spaces in a string with "%20'.
+// You can assume that there is enough space at the end of the string to accommodate the extra characters,
+// and that you have information about the actual length of the string. Please Use character array
+func URLify(str []byte, trueLength int) {
+	spaceCount := 0
+	// Count the number of spaces
+	for i := 0; i < trueLength; i++ {
+		if str[i] == ' ' {
+			spaceCount++
+		}
+	}
+
+	// Calculate the total length after replacement
+	index := trueLength + spaceCount*2
+
+	// Traverse the string from back to front and replace
+	for i := trueLength - 1; i >= 0; i-- {
+		if str[i] == ' ' {
+			str[index-1] = '0'
+			str[index-2] = '2'
+			str[index-3] = '%'
+			index -= 3
+		} else {
+			str[index-1] = str[i]
+			index--
+		}
+	}
 }
