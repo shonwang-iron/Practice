@@ -33,6 +33,17 @@ func main() {
 	for _, str := range testCases {
 		fmt.Printf("String: %s, Is Palindrome Anagram: %t\n", str, isPermutationOfPalindrome(str))
 	}
+
+	fmt.Println("================================================================")
+	testCases2 := [][]string{
+		{"pale", "ple"},
+		{"pales", "pale"},
+		{"pale", "bale"},
+		{"pale", "bake"},
+	}
+	for _, tc := range testCases2 {
+		fmt.Printf("String 1: %s, String 2: %s, Is One or Zero Edit Away: %t\n", tc[0], tc[1], isOneOrZeroEditAway(tc[0], tc[1]))
+	}
 }
 
 // Non-repeating: Implement an algorithm to
@@ -109,7 +120,9 @@ func URLify(str []byte, trueLength int) {
 	}
 }
 
-// 检查字符串是否是回文的变位词
+// Palindrome anagram: You get a string, please write a function to check whether it is a palindrome anagram.
+// A palindrome means a word or phrase that is the same whether it is read forward or backward.
+// Anagrams are letters rearranged. Palindromes are not limited to dictionary words.
 func isPermutationOfPalindrome(phrase string) bool {
 	table := buildCharFrequencyTable(phrase)
 	return checkMaxOneOdd(table)
@@ -151,4 +164,51 @@ func buildCharFrequencyTable(phrase string) []int {
 		}
 	}
 	return table
+}
+
+func isOneOrZeroEditAway(str1, str2 string) bool {
+	len1 := len(str1)
+	len2 := len(str2)
+
+	// Calculate the length difference of two strings
+	diff := len1 - len2
+	if diff < 0 {
+		diff = -diff
+	}
+
+	// If the length difference is greater than 1, the edit distance must be greater than 1
+	if diff > 1 {
+		return false
+	}
+
+	// For a length difference of 1, after finding the first different character position, compare the subsequent characters.
+	i, j := 0, 0
+	edits := 0
+	for i < len1 && j < len2 {
+		if str1[i] != str2[j] {
+			edits++
+			if edits > 1 {
+				return false
+			}
+
+			// For the case where the length differs by 1, align different character positions
+			if diff == 1 {
+				if len1 > len2 {
+					i++
+				} else {
+					j++
+				}
+				continue
+			}
+		}
+
+		i++
+		j++
+	}
+
+	// If the lengths of the two strings are different and one of the strings has been traversed, the remaining part of the other string can only be inserted.
+	if i < len1 || j < len2 {
+		edits++
+	}
+	return edits <= 1
 }
