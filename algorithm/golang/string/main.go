@@ -12,6 +12,7 @@ func main() {
 		fmt.Printf("String: %s, Non-repeating: %t\n", str, isNonRepeating(str))
 	}
 
+	fmt.Println("================================================================")
 	str1 := "listen"
 	str2 := "silent"
 	fmt.Printf("%s and %s is anagrams: %t\n", str1, str2, isAnagram(str1, str2))
@@ -20,11 +21,18 @@ func main() {
 	str4 := "world"
 	fmt.Printf("%s and %s is anagrams: %t\n", str3, str4, isAnagram(str3, str4))
 
+	fmt.Println("================================================================")
 	str := []byte("Mr John Smith    ")
 	trueLength := 13 // The actual length is 13, not including the extra space at the end
 	fmt.Printf("Original string: %s\n", string(str))
 	URLify(str, trueLength)
 	fmt.Printf("Replaced string: %s\n", string(str))
+
+	fmt.Println("================================================================")
+	testCases = []string{"abcba", "aabbc", "tactcoapapa", "Tact Coa", "A man a plan a canal Panama", "hello world"}
+	for _, str := range testCases {
+		fmt.Printf("String: %s, Is Palindrome Anagram: %t\n", str, isPermutationOfPalindrome(str))
+	}
 }
 
 // Non-repeating: Implement an algorithm to
@@ -99,4 +107,48 @@ func URLify(str []byte, trueLength int) {
 			index--
 		}
 	}
+}
+
+// 检查字符串是否是回文的变位词
+func isPermutationOfPalindrome(phrase string) bool {
+	table := buildCharFrequencyTable(phrase)
+	return checkMaxOneOdd(table)
+}
+
+func checkMaxOneOdd(table []int) bool {
+	foundOdd := false
+	for _, count := range table {
+		if count%2 == 1 {
+			if foundOdd {
+				return false
+			}
+			foundOdd = true
+		}
+	}
+	return true
+}
+
+func getCharNumber(c rune) int {
+	a := int('a')
+	z := int('z')
+	A := int('A')
+	Z := int('Z')
+	value := int(c)
+	if a <= value && value <= z {
+		return value - a
+	} else if A <= value && value <= Z {
+		return value - A
+	}
+	return -1
+}
+
+func buildCharFrequencyTable(phrase string) []int {
+	table := make([]int, int('z')-int('a')+1)
+	for _, char := range phrase {
+		x := getCharNumber(char)
+		if x != -1 {
+			table[x]++
+		}
+	}
+	return table
 }
