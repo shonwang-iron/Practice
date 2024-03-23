@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -43,6 +44,12 @@ func main() {
 	}
 	for _, tc := range testCases2 {
 		fmt.Printf("String 1: %s, String 2: %s, Is One or Zero Edit Away: %t\n", tc[0], tc[1], isOneOrZeroEditAway(tc[0], tc[1]))
+	}
+
+	fmt.Println("================================================================")
+	testCases = []string{"aabcccccaaa", "abcdefg", "aaabbbccc"}
+	for _, str := range testCases {
+		fmt.Printf("Original String: %s, Compressed String: %s\n", str, compressString(str))
 	}
 }
 
@@ -166,6 +173,10 @@ func buildCharFrequencyTable(phrase string) []int {
 	return table
 }
 
+// One edit distance:
+// There are three types of edits that can be performed on letters: inserting a character, deleting a character,
+// or replacing a character.
+// Suppose there are two characters, write a function to check if they are one or zero edit distance
 func isOneOrZeroEditAway(str1, str2 string) bool {
 	len1 := len(str1)
 	len2 := len(str2)
@@ -211,4 +222,33 @@ func isOneOrZeroEditAway(str1, str2 string) bool {
 		edits++
 	}
 	return edits <= 1
+}
+
+// String Compression:
+// Implements a basic string compression method by counting repeated characters.
+// For example, the string aabcccccaaa will become a2b1c5a3.
+// If the compressed string does not become smaller than the original string,
+// then your method should return the original string.
+// You can assume that the string contains only uppercase and lowercase letters.
+func compressString(s string) string {
+	compressed := ""
+	count := 0
+
+	for i := 0; i < len(s); i++ {
+		count++
+		// If the current character is different from the next character,
+		// or the end of the string has been traversed,
+		// add the current character and its number of repetitions to the compressed string
+		if i+1 >= len(s) || s[i] != s[i+1] {
+			compressed += string(s[i]) + strconv.Itoa(count)
+			count = 0 // reset count
+		}
+	}
+
+	//If the length of the compressed string is greater than or equal to the length of the original string,
+	// the original string is returned.
+	if len(compressed) >= len(s) {
+		return s
+	}
+	return compressed
 }
