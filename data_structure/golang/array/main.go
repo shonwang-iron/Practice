@@ -56,6 +56,18 @@ func main() {
 		},
 	)
 	fmt.Println("matchingStrings", result32)
+
+	image := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9},
+	}
+
+	fmt.Println("The original image：")
+	printMatrix(image)
+	rotateImage(image)
+	fmt.Println("\nImage rotated 90 degrees：")
+	printMatrix(image)
 }
 
 func reverseArray(a []int32) []int32 {
@@ -145,4 +157,36 @@ func matchingStrings(stringList []string, queries []string) []int32 {
 	}
 
 	return res
+}
+
+// Rotation matrix:
+// Given an N*N matrix representing an image,
+// where each pixel in the image is 4 bits,
+// please write a method to rotate the image 90 degrees.
+// You can do it in-place in the same memory ( in place) completed?
+func rotateImage(matrix [][]int) {
+	n := len(matrix)
+
+	// Flip diagonally first
+	for i := 0; i < n; i++ {
+		for j := i + 1; j < n; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
+
+	// flip horizontally
+	for i := 0; i < n; i++ {
+		for j := 0; j < n/2; j++ {
+			matrix[i][j], matrix[i][n-j-1] = matrix[i][n-j-1], matrix[i][j]
+		}
+	}
+}
+
+func printMatrix(matrix [][]int) {
+	for _, row := range matrix {
+		for _, val := range row {
+			fmt.Printf("%d ", val)
+		}
+		fmt.Println()
+	}
 }
