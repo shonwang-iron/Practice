@@ -51,6 +51,9 @@ func main() {
 	for _, str := range testCases {
 		fmt.Printf("Original String: %s, Compressed String: %s\n", str, compressString(str))
 	}
+
+	fmt.Println("================================================================")
+	fmt.Println("waterbottle", "erbottlewat", isRotation("waterbottle", "erbottlewat"))
 }
 
 // Non-repeating: Implement an algorithm to
@@ -187,12 +190,15 @@ func isOneOrZeroEditAway(str1, str2 string) bool {
 		diff = -diff
 	}
 
-	// If the length difference is greater than 1, the edit distance must be greater than 1
+	// If the length difference is greater than 1,
+	// the edit distance must be greater than 1
 	if diff > 1 {
 		return false
 	}
 
-	// For a length difference of 1, after finding the first different character position, compare the subsequent characters.
+	// For a length difference of 1,
+	// after finding the first different character position,
+	// compare the subsequent characters.
 	i, j := 0, 0
 	edits := 0
 	for i < len1 && j < len2 {
@@ -202,7 +208,8 @@ func isOneOrZeroEditAway(str1, str2 string) bool {
 				return false
 			}
 
-			// For the case where the length differs by 1, align different character positions
+			// For the case where the length differs by 1,
+			// align different character positions
 			if diff == 1 {
 				if len1 > len2 {
 					i++
@@ -217,7 +224,8 @@ func isOneOrZeroEditAway(str1, str2 string) bool {
 		j++
 	}
 
-	// If the lengths of the two strings are different and one of the strings has been traversed, the remaining part of the other string can only be inserted.
+	// If the lengths of the two strings are different and one of the strings has been traversed,
+	// the remaining part of the other string can only be inserted.
 	if i < len1 || j < len2 {
 		edits++
 	}
@@ -245,10 +253,27 @@ func compressString(s string) string {
 		}
 	}
 
-	//If the length of the compressed string is greater than or equal to the length of the original string,
+	// If the length of the compressed string is greater than or equal to the length of the original string,
 	// the original string is returned.
 	if len(compressed) >= len(s) {
 		return s
 	}
 	return compressed
+}
+
+// String rotation:
+// Suppose you have an isSubstring method that checks whether a word is a substring of another word.
+// Suppose you have two strings s1 and s2,
+// limit the use of only one isSubstring call,
+// and write code to check whether s2 is the rotation of s1
+// (for example, waterbottle is the rotation of erbottlewat)
+func isRotation(s1, s2 string) bool {
+	len1 := len(s1)
+
+	isSubstring := func(s1, s2 string) bool { return true }
+
+	if len1 == len(s2) && len1 > 0 {
+		return isSubstring(s1+s1, s2)
+	}
+	return false
 }
